@@ -46,6 +46,7 @@ class HaCrServo(hardwareMap: HardwareMap, id: String, var runMode: RunMode) :
 
     fun setPositionSetPoint(setpoint: Rotation2d) {
         if (runMode == RunMode.OptimizedPositionalControl) {
+            PositionSetpoint = setpoint
             super.set(setpoint.degrees)
         } else {
             robotPrintError("you cant give raw power servo a position setpoint")

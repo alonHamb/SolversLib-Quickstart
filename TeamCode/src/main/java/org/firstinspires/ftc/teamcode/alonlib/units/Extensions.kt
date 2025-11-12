@@ -31,3 +31,4 @@ inline val Rotation2d.rotations: Number get() = (this.degrees / 360.0)
 infix fun Rotation2d.plus(other: Rotation2d) = (this.degrees + other.degrees).degrees
 infix fun Rotation2d.minus(other: Rotation2d) = (this.degrees - other.degrees).degrees
 
+
