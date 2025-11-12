@@ -33,9 +33,9 @@ object ShooterConstants {
     val MIN_HOOD_ANGLE = 45.degrees
     val MAX_FLYWHEEL_VELOCITY = 6000.rpm
 
-    val VELOCITY_TOLERANCE_TABLE = LinearInterpolationTable(
-        0.2 to 4.0
-    )
+    val VELOCITY_TOLERANCE = 1.rpm
+
+    val HEADING_TOLERANCE = 0.1.degrees
 
     class ShooterState(heading: Rotation2d, angle: Rotation2d, velocity: AngularVelocity) {
         val heading: Rotation2d
