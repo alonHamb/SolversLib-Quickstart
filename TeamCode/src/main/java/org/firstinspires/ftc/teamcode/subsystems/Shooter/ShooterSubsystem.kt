@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems.Shooter
 
 import com.hamosad1657.lib.units.AngularVelocity
+import com.hamosad1657.lib.units.rpm
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.seattlesolvers.solverslib.command.SubsystemBase
 import com.seattlesolvers.solverslib.geometry.Rotation2d
@@ -66,7 +67,15 @@ class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry) : Subsyst
 
     // --- State Getters ---
 
-    val currntVelocity get() = AngularVelocity.fromRpm(flywheelMotor.velocity)
+    val currentVelocity get() = flywheelMotor.getCurrentVelocity()
+
+    val currentHeading get() = turretServo.encoder.position
+
+    val currentAngle get() = (hoodServo.getPosition() * HOOD_TO_SERVO_RATIO)
+
+    val velocityTolerance = 0.1.rpm
+
+    val isWithinVelocityTolerance get() = flywheelMotor.getCurrentVelocity().asRpm - flywheelMotor.getCurrentVelocity().asRpm
 
     fun setHoodAngle(angle: Rotation2d) {
         hoodServo.setPosition(angle * HOOD_TO_SERVO_RATIO)
