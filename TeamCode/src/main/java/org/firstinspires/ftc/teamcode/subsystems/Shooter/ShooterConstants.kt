@@ -8,6 +8,7 @@ import com.seattlesolvers.solverslib.geometry.Rotation2d
 import com.seattlesolvers.solverslib.hardware.motors.CRServoEx
 import com.seattlesolvers.solverslib.hardware.motors.Motor
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
+import org.firstinspires.ftc.teamcode.alonlib.math.LinearInterpolationTable
 import org.firstinspires.ftc.teamcode.alonlib.robotPrintError
 
 object ShooterConstants {
@@ -21,7 +22,7 @@ object ShooterConstants {
     val TURRET_ENCODER_UNIT = AngleUnit.DEGREES
 
     val FLYWHEEL_MOTOR_TYPE = Motor.GoBILDA.BARE
-    val FLYWHEEL_MOTOR_PID_GAINS: PIDGains = PIDGains(0.0,0.0,0.0,)
+    val FLYWHEEL_MOTOR_PID_GAINS: PIDGains = PIDGains(0.0, 0.0, 0.0)
 
 
     // --- Ratios ---
@@ -31,6 +32,10 @@ object ShooterConstants {
     val MAX_HOOD_ANGLE = 82.degrees
     val MIN_HOOD_ANGLE = 45.degrees
     val MAX_FLYWHEEL_VELOCITY = 6000.rpm
+
+    val VELOCITY_TOLERANCE_TABLE = LinearInterpolationTable(
+        0.2 to 4.0
+    )
 
     class ShooterState(heading: Rotation2d, angle: Rotation2d, velocity: AngularVelocity) {
         val heading: Rotation2d
