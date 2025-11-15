@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems.Shooter
 
-import com.hamosad1657.lib.units.AngularVelocity
-import com.hamosad1657.lib.units.degrees
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.seattlesolvers.solverslib.command.SubsystemBase
 import com.seattlesolvers.solverslib.geometry.Rotation2d
@@ -11,6 +9,8 @@ import org.firstinspires.ftc.teamcode.alonlib.Telemetry
 import org.firstinspires.ftc.teamcode.alonlib.motors.HaDcMotor
 import org.firstinspires.ftc.teamcode.alonlib.servos.HaCrServo
 import org.firstinspires.ftc.teamcode.alonlib.servos.HaServo
+import org.firstinspires.ftc.teamcode.alonlib.units.AngularVelocity
+import org.firstinspires.ftc.teamcode.alonlib.units.degrees
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.FLYWHEEL_MOTOR_PID_GAINS
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.FLYWHEEL_MOTOR_TYPE
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.HEADING_TOLERANCE
@@ -46,7 +46,7 @@ class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry) : Subsyst
 
     val turretServo = HaCrServo(
         hardwareMap,
-        ShooterMap.TURRENT_SERVO_ID,
+        ShooterMap.TURRET_SERVO_ID,
         TURRET_SERVO_RUNMODE
     ).apply {
         setAbsoluteEncoder(turretEncoder)
@@ -73,20 +73,20 @@ class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry) : Subsyst
 
     val currentVelocity get() = flywheelMotor.getCurrentVelocity()
 
-    val currentHeading get() = turretServo.encoder.position.degrees
+    val currentHeading get() = (turretServo.encoder.position/turretServo.cpr).degrees
+    val currentAngle get() = (hoodServo.getPositionSetPoint().degrees * HOOD_TO_SERVO_RATIO).degrees
 
-    val currentAngle get() = (hoodServo.getPosition() * HOOD_TO_SERVO_RATIO)
+    val headingError get() = turretServo.targetPosition - turret
+    Encoder.currentPosition.degrees
 
-    val headingError get() = turretServo.PositionSetpoint - turretEncoder.currentPosition.degrees
-
-    val velocityError get() = flywheelMotor.velocitySetpoint - flywheelMotor.getCurrentVelocity()
+    val velocityError get() = flywheelMotor.targetVelocity - flywheelMotor.getCurrentVelocity()
 
     val isWithinVelocityTolerance get() = VELOCITY_TOLERANCE >= velocityError
 
-    val isWithinHeadingTolerance get() = HEADING_TOLERANCE.degrees >= headingError.degrees
+    val isWithinHeadingTolerance get() = HEADING_TOLERANCE >= headingError
 
     fun setHoodAngle(angle: Rotation2d) {
-        hoodServo.setPosition(angle * HOOD_TO_SERVO_RATIO)
+        hoodServo.setPositionSetPoint(angle * HOOD_TO_SERVO_RATIO)
     }
 
     fun setHeading(heading: Rotation2d) {
