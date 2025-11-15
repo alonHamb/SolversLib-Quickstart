@@ -48,12 +48,13 @@ object ShooterConstants {
             0.rpm
         }
 
+
         companion object {
 
             val AT_GOAL = ShooterState(0.degrees, 82.degrees, 3000.rpm)
 
             val AT_FAR_STARTING_ZONE = ShooterState(45.degrees, 45.degrees, 6000.rpm)
-
         }
+
     }
 }
