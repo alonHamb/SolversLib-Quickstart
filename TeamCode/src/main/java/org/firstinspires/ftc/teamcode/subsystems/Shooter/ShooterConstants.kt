@@ -25,7 +25,11 @@ object ShooterConstants {
 
 
     // --- Ratios ---
-    const val HOOD_TO_SERVO_RATIO = 1.0
+    const val ANGLE_SERVO_RATIO = 1.0
+
+    const val FLYWHEEL_MOTOR_RATIO = 1.0 / 2.0
+
+    const val HEADING_SERVO_RATIO = 0.125
 
     // --- Constants ---
     val MAX_HOOD_ANGLE = 82.degrees
