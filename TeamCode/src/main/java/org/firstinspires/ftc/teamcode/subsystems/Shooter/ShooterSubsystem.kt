@@ -12,12 +12,16 @@ import org.firstinspires.ftc.teamcode.alonlib.servos.HaServo
 import org.firstinspires.ftc.teamcode.alonlib.units.AngularVelocity
 import org.firstinspires.ftc.teamcode.alonlib.units.compareTo
 import org.firstinspires.ftc.teamcode.alonlib.units.degrees
+import org.firstinspires.ftc.teamcode.alonlib.units.div
+import org.firstinspires.ftc.teamcode.alonlib.units.rpm
+import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.ANGLE_SERVO_RATIO
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.FLYWHEEL_MOTOR_PID_GAINS
+import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.FLYWHEEL_MOTOR_RATIO
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.FLYWHEEL_MOTOR_TYPE
+import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.HEADING_SERVO_RATIO
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.HEADING_TOLERANCE
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.HOOD_SERVO_MAX_POSITION
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.HOOD_SERVO_MIN_POSITION
-import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.HOOD_TO_SERVO_RATIO
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.ShooterState
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.TURRET_ENCODER_RANGE
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.TURRET_ENCODER_UNIT
@@ -70,37 +74,43 @@ class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry) : Subsyst
 
     // --- State Getters ---
 
-    val currentState get() = ShooterState(currentHeading, currentAngle, currentVelocity)
+    val currentState: ShooterState get() = ShooterState(currentHeading, currentAngle, currentVelocity)
 
-    val currentVelocity get() = flywheelMotor.getCurrentVelocity()
+    val currentVelocity: AngularVelocity get() = flywheelMotor.getCurrentVelocity() * FLYWHEEL_MOTOR_RATIO
 
-    val currentHeading get() = (turretServo.encoder.position / turretServo.cpr).degrees
-    val currentAngle get() = (hoodServo.getPositionSetPoint().degrees * HOOD_TO_SERVO_RATIO).degrees
+    val currentHeading: Rotation2d get() = (turretServo.encoder.position / turretServo.cpr).degrees * HEADING_SERVO_RATIO
+    val currentAngle: Rotation2d get() = (hoodServo.getPositionSetPoint().degrees * ANGLE_SERVO_RATIO).degrees * ANGLE_SERVO_RATIO
 
     val headingError: Rotation2d get() = turretServo.targetPosition - turretEncoder.currentPosition.degrees
 
-    val velocityError get() = flywheelMotor.targetVelocity - flywheelMotor.getCurrentVelocity()
+    val velocityError: AngularVelocity get() = flywheelMotor.targetVelocity - flywheelMotor.getCurrentVelocity()
 
-    val isWithinVelocityTolerance get() = VELOCITY_TOLERANCE >= velocityError
+    val isWithinVelocityTolerance: Boolean get() = VELOCITY_TOLERANCE >= velocityError
 
-    val isWithinHeadingTolerance get() = HEADING_TOLERANCE >= headingError
+    val isWithinHeadingTolerance: Boolean get() = HEADING_TOLERANCE >= headingError
 
     fun setHoodAngle(angle: Rotation2d) {
-        hoodServo.setPositionSetPoint(angle * HOOD_TO_SERVO_RATIO)
+        hoodServo.setPositionSetPoint(angle / ANGLE_SERVO_RATIO)
     }
 
     fun setHeading(heading: Rotation2d) {
-        turretServo.setPositionSetPoint(heading)
+        turretServo.setPositionSetPoint(heading / HEADING_SERVO_RATIO)
     }
 
     fun setFlywheelVelocity(velocity: AngularVelocity) {
-        flywheelMotor.setVelocitySetpoint(velocity)
+        flywheelMotor.setVelocitySetpoint(velocity / FLYWHEEL_MOTOR_RATIO)
     }
 
     fun setShooterState(state: ShooterState) {
         setHeading(state.heading)
         setHoodAngle(state.angle)
         setFlywheelVelocity(state.velocity)
+    }
+
+    fun stop() {
+        setHeading(0.degrees)
+        setHoodAngle(0.degrees)
+        setFlywheelVelocity(0.rpm)
     }
 
     fun disable() {

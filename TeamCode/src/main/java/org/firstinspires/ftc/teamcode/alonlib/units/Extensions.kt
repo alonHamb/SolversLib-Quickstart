@@ -30,5 +30,6 @@ inline val Rotation2d.absoluteValue: Rotation2d get() = Rotation2d.fromDegrees(a
 inline val Rotation2d.rotations: Number get() = (this.degrees / 360.0)
 
 infix operator fun Rotation2d.compareTo(other: Rotation2d): Int = MathUtils.normalizeDegrees(this.degrees, true).toInt() - (MathUtils.normalizeDegrees(other.degrees, true)).toInt()
+infix operator fun Rotation2d.div(other: Number): Rotation2d = Rotation2d(this.radians / other.toDouble())
 
 

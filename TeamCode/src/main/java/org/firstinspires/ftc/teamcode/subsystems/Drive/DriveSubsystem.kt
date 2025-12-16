@@ -111,12 +111,14 @@ class DriveSubsystem(var hardwareMap: HardwareMap, var telemetry: Telemetry) : S
         isFieldRelative: Boolean = true,
         useClosedLoopDrive: Boolean = false
     ) {
+
         if (isFieldRelative) {
             drive.driveFieldCentric(
                 translation.x,
                 translation.y,
                 turnMultiplier,
                 gyro.revIMU.angularOrientation.thirdAngle.toDouble()
+
             )
         } else {
             drive.driveRobotCentric(
