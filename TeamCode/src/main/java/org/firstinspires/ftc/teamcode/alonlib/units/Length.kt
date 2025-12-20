@@ -72,6 +72,7 @@ class Length private constructor(length: Number, lengthUnit: Unit) : Comparable<
     operator fun minus(other: Length) = fromMeters(meters - other.meters)
     operator fun times(other: Double) = fromMeters(meters * other)
     operator fun div(other: Double) = fromMeters(meters / other)
+    operator fun unaryMinus() = fromMeters(meters) * -1.0
 
     enum class Unit {
         Meters,

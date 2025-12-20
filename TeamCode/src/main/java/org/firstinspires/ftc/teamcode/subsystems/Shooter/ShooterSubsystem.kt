@@ -5,7 +5,7 @@ import com.seattlesolvers.solverslib.command.SubsystemBase
 import com.seattlesolvers.solverslib.geometry.Rotation2d
 import com.seattlesolvers.solverslib.hardware.AbsoluteAnalogEncoder
 import com.seattlesolvers.solverslib.hardware.motors.Motor
-import org.firstinspires.ftc.teamcode.alonlib.Telemetry
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.alonlib.motors.HaDcMotor
 import org.firstinspires.ftc.teamcode.alonlib.servos.HaCrServo
 import org.firstinspires.ftc.teamcode.alonlib.servos.HaServo
@@ -78,8 +78,11 @@ class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry) : Subsyst
 
     val currentVelocity: AngularVelocity get() = flywheelMotor.getCurrentVelocity() * FLYWHEEL_MOTOR_RATIO
 
+
+    /** the [currentHeading] of the turret relative to the robot **/
     val currentHeading: Rotation2d get() = (turretServo.encoder.position / turretServo.cpr).degrees * HEADING_SERVO_RATIO
     val currentAngle: Rotation2d get() = (hoodServo.getPositionSetPoint().degrees * ANGLE_SERVO_RATIO).degrees * ANGLE_SERVO_RATIO
+
 
     val headingError: Rotation2d get() = turretServo.targetPosition - turretEncoder.currentPosition.degrees
 
