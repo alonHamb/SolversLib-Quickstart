@@ -30,12 +30,7 @@ android {
 repositories {
     maven {
         url = 'https://maven.brott.dev/'
-    }
-
-    maven {
         url = 'https://maven.pedropathing.com'
-    }
-    maven {
         url = 'https://mymaven.bylazar.com/releases'
     }
 
@@ -65,6 +60,11 @@ dependencies {
     // Pedro Pathing
     implementation 'com.pedropathing:ftc:2.0.3'
     implementation 'com.pedropathing:telemetry:1.0.0'
+
+    //RoadRunner
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
+    implementation 'com.acmerobotics.roadrunner:core:0.5.6'
 
     // Panels Dashboard
     implementation "com.bylazar:fullpanels:1.0.5"

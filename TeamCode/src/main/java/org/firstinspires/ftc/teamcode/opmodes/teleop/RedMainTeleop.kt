@@ -7,10 +7,10 @@ import org.firstinspires.ftc.teamcode.RobotContainer
 import org.firstinspires.ftc.teamcode.alonlib.units.Alliance
 
 @TeleOp(name = "Blue Main Teleop", group = "Teleop")
-class BlueMainTeleop : CommandOpMode() {
+class RedMainTeleop : CommandOpMode() {
     override fun initialize() {
         FtcDashboard.getInstance().telemetry.addLine("Robot initializing")
-        RobotContainer(hardwareMap, FtcDashboard.getInstance().telemetry, Alliance.Blue, gamepad1, gamepad2)
+        RobotContainer(hardwareMap, FtcDashboard.getInstance().telemetry, Alliance.Red, gamepad1, gamepad2)
         FtcDashboard.getInstance().telemetry.update()
 
 
