@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.alonlib.motors.HaDcMotor
 import org.firstinspires.ftc.teamcode.alonlib.servos.HaCrServo
 import org.firstinspires.ftc.teamcode.alonlib.servos.HaServo
+import org.firstinspires.ftc.teamcode.alonlib.units.Alliance
 import org.firstinspires.ftc.teamcode.alonlib.units.AngularVelocity
 import org.firstinspires.ftc.teamcode.alonlib.units.compareTo
 import org.firstinspires.ftc.teamcode.alonlib.units.degrees
@@ -29,7 +30,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.TURRET
 import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterConstants.VELOCITY_TOLERANCE
 import org.firstinspires.ftc.teamcode.RobotMap.Shooter as ShooterMap
 
-class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry) : SubsystemBase() {
+class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry, alliance: Alliance) : SubsystemBase() {
     init {
         name = "Shooter Subsystem"
 
@@ -108,6 +109,10 @@ class ShooterSubsystem(hardwareMap: HardwareMap, telemetry: Telemetry) : Subsyst
         setHeading(state.heading)
         setHoodAngle(state.angle)
         setFlywheelVelocity(state.velocity)
+    }
+
+    fun followGoal() {
+        setHeading(vision.angleToGOalTag())
     }
 
     fun stop() {

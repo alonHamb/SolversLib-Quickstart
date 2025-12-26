@@ -15,6 +15,10 @@ import org.firstinspires.ftc.teamcode.alonlib.units.rps
 
 class HaDcMotor(hardwareMap: HardwareMap, id: String, type: GoBILDA) :
     MotorEx(hardwareMap, id, type) {
+
+
+    var runningDirection = Direction.FORWARD
+
     /** the current position setpoint of the motor **/
     var positionSetpoint: Rotation2d = 0.0.degrees
 
@@ -48,7 +52,7 @@ class HaDcMotor(hardwareMap: HardwareMap, id: String, type: GoBILDA) :
         }
 
 
-    fun configPID(gains: PIDGains) {
+    fun setPIDGains(gains: PIDGains) {
         if (runmode == RunMode.PositionControl) {
             positionCoefficient = (gains.kP)
         } else if (runmode == RunMode.VelocityControl) {
@@ -63,7 +67,7 @@ class HaDcMotor(hardwareMap: HardwareMap, id: String, type: GoBILDA) :
         if (maxPercentOutput <= minPercentOutput) {
             robotPrintError("maxPercentOutput is smaller or equal to minPercentOutput")
         } else {
-            super.set(clamp(output, minPercentOutput, maxPercentOutput))
+            super.set(clamp(output * runningDirection.multiplier, minPercentOutput, maxPercentOutput))
         }
     }
 
@@ -71,7 +75,7 @@ class HaDcMotor(hardwareMap: HardwareMap, id: String, type: GoBILDA) :
         if ((forwardLimit() && output > 0.0) || (reverseLimit() && output < 0.0)) {
             super.set(0.0)
         } else {
-            set(output)
+            set(output * runningDirection.multiplier)
         }
     }
 
@@ -94,3 +98,5 @@ class HaDcMotor(hardwareMap: HardwareMap, id: String, type: GoBILDA) :
     }
 
 }
+
+private fun HaDcMotor.setRunMode(runmode: com.qualcomm.robotcore.hardware.DcMotor.RunMode) {}
