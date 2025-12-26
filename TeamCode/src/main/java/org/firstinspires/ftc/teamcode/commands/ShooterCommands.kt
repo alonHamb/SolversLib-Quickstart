@@ -10,3 +10,5 @@ fun Shooter.getToStateCommand(state: ShooterState): Command = RunCommand({ this.
 
 fun Shooter.getToGoalStateCommand(): Command = RunCommand({ this.setShooterState(AT_GOAL) })
 
+fun Shooter.followGoalCommand(): Command = RunCommand({ shooter.followGoal() })
+

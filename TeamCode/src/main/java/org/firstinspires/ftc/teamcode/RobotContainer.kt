@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.seattlesolvers.solverslib.gamepad.GamepadEx
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.alonlib.units.Alliance
+import org.firstinspires.ftc.teamcode.subsystems.Shooter.ShooterSubsystem
 import org.firstinspires.ftc.teamcode.subsystems.vision.ApriltagCamera
 
 @Config
@@ -24,6 +25,7 @@ class RobotContainer(
 
     // --- Subsystem decleration
     lateinit var apriltagCamera: ApriltagCamera
+    lateinit var shooter: ShooterSubsystem
 
     init {
         initializeSubsystems()
@@ -34,6 +36,7 @@ class RobotContainer(
 
     fun initializeSubsystems() {
         apriltagCamera = ApriltagCamera(hardwareMap, telemetry, alliance)
+        shooter = ShooterSubsystem(hardwareMap,telemetry,alliance)
     }
 
     fun configureButtonBindings() {
@@ -44,7 +47,7 @@ class RobotContainer(
     }
 
     fun setDefaultCommands() {
-
+        shooter.defaultCommand =
     }
 
     companion object {
