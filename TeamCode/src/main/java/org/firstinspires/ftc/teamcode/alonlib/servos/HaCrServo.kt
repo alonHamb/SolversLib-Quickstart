@@ -30,7 +30,7 @@ class HaCrServo(hardwareMap: HardwareMap, id: String, var runMode: RunMode) :
                 gains.kP,
                 gains.kI,
                 gains.kD,
-                gains.kFF(targetPosition.degrees)
+                gains.kFF
             )
         )
     }
