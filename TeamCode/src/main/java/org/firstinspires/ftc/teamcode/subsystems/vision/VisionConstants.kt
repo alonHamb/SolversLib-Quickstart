@@ -1,10 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystems.vision
 
+import com.qualcomm.robotcore.util.SerialNumber
 import com.seattlesolvers.solverslib.geometry.Translation2d
 import org.firstinspires.ftc.teamcode.alonlib.units.degrees
 import org.firstinspires.ftc.teamcode.alonlib.units.meters
+import java.net.InetAddress
 
 object VisionConstants {
+
+    val LIMELIGHT_SERIAL_NUMBER: SerialNumber = SerialNumber.fromString("dadasda")
+
+    val LIMELIGHT_NAME = "limelight"
+
+    val LIMELIGHT_IP_ADDRESS = InetAddress()
 
     val CAMERA_PITCH = 21.degrees
 

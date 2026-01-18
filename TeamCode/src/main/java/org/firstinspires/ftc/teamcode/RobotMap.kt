@@ -4,7 +4,7 @@ object RobotMap {
 
     object Vision {
 
-        val WEBCAM_ID = "Webcam 1"
+        const val WEBCAM_ID = "Webcam 1"
 
     }
 
